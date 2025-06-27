@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import Datepicker from "../components/Datepicker";
+import OrganizationCard from "../partials/organization/OrganizationCard"
 
 function Organization() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -22,7 +23,7 @@ function Organization() {
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Left: Breadcrumbs as Title */}
-              <div className="mb-4 sm:mb-0">
+              <div className="ms-1 mb-4 sm:mb-0">
                 <nav
                   className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400"
                   aria-label="Breadcrumb"
@@ -61,7 +62,11 @@ function Organization() {
             </div>
 
             {/* Cards */}
-            <div className="grid grid-cols-12 gap-6"></div>
+            <div className="grid grid-cols-12 gap-6">
+
+              <OrganizationCard />
+
+            </div>
           </div>
         </main>
       </div>

@@ -4,19 +4,23 @@ import { InboxIcon, PaperAirplaneIcon, BookOpenIcon } from '@heroicons/react/24/
 
 function QuickActionsCard() {
   return (
-    <div className="col-span-full bg-white dark:bg-gray-800 shadow-xs rounded-xl p-5">
-      <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-4">
-        Aksi Cepat
-      </h2>
+    <div className="col-span-full bg-white dark:bg-gray-800 rounded-xl shadow">
+      {/* Header */}
+      <div className="px-5 py-4 border-b border-gray-100 dark:border-gray-700/60">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-gray-100">
+          Aksi Cepat
+        </h2>
+      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      {/* Body */}
+      <div className="p-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Surat Masuk */}
         <Link
-          to="/surat-masuk/tambah"
+          to="/mail/inbox"
           className="flex items-center gap-3 px-4 py-3 rounded-lg bg-violet-50 dark:bg-violet-900/20 hover:bg-violet-100 dark:hover:bg-violet-800 transition-colors"
         >
           <div className="p-2 bg-violet-500 text-white rounded-full">
-            <InboxIcon className='h-5 w-5' />
+            <InboxIcon className="h-5 w-5" />
           </div>
           <div>
             <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
@@ -30,11 +34,11 @@ function QuickActionsCard() {
 
         {/* Surat Keluar */}
         <Link
-          to="/surat-keluar/tambah"
+          to="/mail/outbox"
           className="flex items-center gap-3 px-4 py-3 rounded-lg bg-sky-50 dark:bg-sky-900/20 hover:bg-sky-100 dark:hover:bg-sky-800 transition-colors"
         >
           <div className="p-2 bg-sky-500 text-white rounded-full">
-            <PaperAirplaneIcon className='h-5 w-5' />
+            <PaperAirplaneIcon className="h-5 w-5" />
           </div>
           <div>
             <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
@@ -48,11 +52,11 @@ function QuickActionsCard() {
 
         {/* Buku Agenda */}
         <Link
-          to="/buku-agenda"
-          className="flex items-center gap-3 px-4 py-3 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 hover:bg-yellow-100 dark:hover:bg-yellow-800 transition-colors"
+          to="/logbook"
+          className="flex items-center gap-3 px-4 py-3 rounded-lg bg-orange-50 dark:bg-orange-900/20 hover:bg-orange-100 dark:hover:bg-orange-800 transition-colors"
         >
-          <div className="p-2 bg-yellow-500 text-white rounded-full">
-            <BookOpenIcon className='h-5 w-5' />
+          <div className="p-2 bg-orange-500 text-white rounded-full">
+            <BookOpenIcon className="h-5 w-5" />
           </div>
           <div>
             <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
@@ -64,6 +68,8 @@ function QuickActionsCard() {
           </div>
         </Link>
       </div>
+
+      
     </div>
   );
 }

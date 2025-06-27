@@ -4,7 +4,7 @@
 @import './additional-styles/utility-patterns.css' layer(components);
 
 @plugin "@tailwindcss/forms" {
-  strategy: class;
+  strategy: base;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -49,7 +49,7 @@
   --color-violet-900: #0f5429;
   --color-violet-950: #0a3f1e;
   
-  --color-sky-50: #e3f3ff;
+  /* --color-sky-50: #e3f3ff;
   --color-sky-100: #d1ecff;
   --color-sky-200: #b6e1ff;
   --color-sky-300: #a0d7ff;
@@ -59,7 +59,19 @@
   --color-sky-700: #3193da;
   --color-sky-800: #1c71ae;
   --color-sky-900: #124d79;
-  --color-sky-950: #0b324f;
+  --color-sky-950: #0b324f; */
+
+  --color-sky-50: #fff2c9;
+  --color-sky-100: #ffe7a0;
+  --color-sky-200: #ffe081;
+  --color-sky-300: #ffd968;
+  --color-sky-400: #f7cd4c;
+  --color-sky-500: #f0bb33;
+  --color-sky-600: #dfad2b;
+  --color-sky-700: #bc9021;
+  --color-sky-800: #816316;
+  --color-sky-900: #4f3d0e;
+  --color-sky-950: #342809;
 
   --color-green-50: #d2ffe2;
   --color-green-100: #b1fdcd;
@@ -147,4 +159,10 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentColor);
   }
+}
+
+.ProseMirror {
+  min-height: 150px;
+  outline: none;
+  white-space: pre-wrap;
 }

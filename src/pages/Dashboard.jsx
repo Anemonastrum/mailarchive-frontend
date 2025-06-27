@@ -28,7 +28,7 @@ function Dashboard() {
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Left: Breadcrumbs as Title */}
-              <div className="mb-4 sm:mb-0">
+              <div className="ms-1 mb-4 sm:mb-0">
                 <nav
                   className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400"
                   aria-label="Breadcrumb"

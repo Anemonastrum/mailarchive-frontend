@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useLocation } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 
 import SidebarLinkGroup from "./SidebarLinkGroup";
 
@@ -11,11 +12,11 @@ import {
   UserGroupIcon,
   BuildingOffice2Icon,
   TagIcon,
-  PencilIcon,
   CheckBadgeIcon,
 } from "@heroicons/react/24/solid";
 
 function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
+  const { user } = useAuth();
   const location = useLocation();
   const { pathname } = location;
 
@@ -121,16 +122,16 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
         {/* Profile section */}
         <div className="flex items-center gap-3 px-3 py-4 rounded-lg bg-gray-50 dark:bg-gray-900/40 mb-4">
           <img
-            src="https://fotomhs.amikom.ac.id/2022/22_01_4840.jpg"
+            src={user.pictureUrl}
             alt="User"
             className="w-20 h-20 rounded-full object-cover"
           />
           <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
             <div className="text-sm font-semibold text-gray-800 dark:text-gray-100">
-              Rusdi Shyt
+              {user.name}
             </div>
             <div className="text-xs text-gray-500 dark:text-gray-400">
-              Member Ngawi
+              {user.position}
             </div>
           </div>
         </div>
@@ -289,96 +290,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                 }}
               </SidebarLinkGroup>
 
-              {/* Persuratan */}
-              <SidebarLinkGroup
-                activecondition={
-                  pathname === "/mail" || pathname.includes("mail")
-                }
-              >
-                {(handleClick, open) => {
-                  return (
-                    <React.Fragment>
-                      <a
-                        href="#0"
-                        className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                          pathname === "/mail" || pathname.includes("mail")
-                            ? ""
-                            : "hover:text-gray-900 dark:hover:text-white"
-                        }`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleClick();
-                          setSidebarExpanded(true);
-                        }}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center">
-                            <EnvelopeIcon
-                              className={`shrink-0 w-5 h-5 ${
-                                pathname === "/mail" ||
-                                pathname.includes("mail")
-                                  ? "text-violet-500"
-                                  : "text-gray-400 dark:text-gray-500"
-                              }`}
-                            />
-                            <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                              Persuratan
-                            </span>
-                          </div>
-                          {/* Icon */}
-                          <div className="flex shrink-0 ml-2">
-                            <svg
-                              className={`w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500 ${
-                                open && "rotate-180"
-                              }`}
-                              viewBox="0 0 12 12"
-                            >
-                              <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                      <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                        <ul className={`pl-8 mt-2 ${!open && "hidden"}`}>
-                          <li className="mb-2 last:mb-0">
-                            <NavLink
-                              end
-                              to="/inbox"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-violet-500"
-                                  : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Surat Masuk
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-2 last:mb-0">
-                            <NavLink
-                              end
-                              to="/outbox"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-violet-500"
-                                  : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Surat Keluar
-                              </span>
-                            </NavLink>
-                          </li>
-                        </ul>
-                      </div>
-                    </React.Fragment>
-                  );
-                }}
-              </SidebarLinkGroup>
-
               {/* Profile */}
               <SidebarLinkGroup
                 activecondition={
@@ -434,7 +345,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           <li className="mb-2 last:mb-0">
                             <NavLink
                               end
-                              to="/data"
+                              to="/profile/data"
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive
@@ -450,7 +361,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
                           <li className="mb-2 last:mb-0">
                             <NavLink
                               end
-                              to="/password"
+                              to="/profile/password"
                               className={({ isActive }) =>
                                 "block transition duration-150 truncate " +
                                 (isActive
@@ -471,145 +382,319 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
               </SidebarLinkGroup>
             </ul>
           </div>
-          {/* More group */}
-          <div>
-            <h3 className="text-xs uppercase text-gray-400 dark:text-gray-500 font-semibold pl-3">
-              <span
-                className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
-                aria-hidden="true"
-              >
-                •••
-              </span>
-              <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
-                SUPERADMIN
-              </span>
-            </h3>
-            <ul className="mt-3">
-              {/* Disposisi */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r ${
-                  pathname.includes("disposisi") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/disposisi"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("disposisi")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <CheckBadgeIcon
-                      className={`shrink-0 h-5 w-5 ${
+
+          {/* Admin & Superadmin only */}
+          {(user?.role === "admin" || user?.role === "superadmin") && (
+            <>
+              <div>
+                <h3 className="text-xs uppercase text-gray-400 dark:text-gray-500 font-semibold pl-3">
+                  <span
+                    className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
+                    aria-hidden="true"
+                  >
+                    •••
+                  </span>
+                  <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                    ADMIN
+                  </span>
+                </h3>
+                <ul className="mt-3">
+                  {/* Persuratan */}
+                  <SidebarLinkGroup
+                    activecondition={
+                      pathname === "/mail" || pathname.includes("mail")
+                    }
+                  >
+                    {(handleClick, open) => {
+                      return (
+                        <React.Fragment>
+                          <a
+                            href="#0"
+                            className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
+                              pathname === "/mail" || pathname.includes("mail")
+                                ? ""
+                                : "hover:text-gray-900 dark:hover:text-white"
+                            }`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleClick();
+                              setSidebarExpanded(true);
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <EnvelopeIcon
+                                  className={`shrink-0 w-5 h-5 ${
+                                    pathname === "/mail" ||
+                                    pathname.includes("mail")
+                                      ? "text-violet-500"
+                                      : "text-gray-400 dark:text-gray-500"
+                                  }`}
+                                />
+                                <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Persuratan
+                                </span>
+                              </div>
+                              {/* Icon */}
+                              <div className="flex shrink-0 ml-2">
+                                <svg
+                                  className={`w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500 ${
+                                    open && "rotate-180"
+                                  }`}
+                                  viewBox="0 0 12 12"
+                                >
+                                  <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                </svg>
+                              </div>
+                            </div>
+                          </a>
+                          <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                            <ul className={`pl-8 mt-2 ${!open && "hidden"}`}>
+                              <li className="mb-2 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/mail/inbox"
+                                  className={({ isActive }) =>
+                                    "block transition duration-150 truncate " +
+                                    (isActive
+                                      ? "text-violet-500"
+                                      : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
+                                  }
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Surat Masuk
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li className="mb-2 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/mail/outbox"
+                                  className={({ isActive }) =>
+                                    "block transition duration-150 truncate " +
+                                    (isActive
+                                      ? "text-violet-500"
+                                      : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
+                                  }
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Surat Keluar
+                                  </span>
+                                </NavLink>
+                              </li>
+                            </ul>
+                          </div>
+                        </React.Fragment>
+                      );
+                    }}
+                  </SidebarLinkGroup>
+                </ul>
+              </div>
+            </>
+          )}
+
+          {/* Superadmin only */}
+          {user?.role === "superadmin" && (
+            <>
+              <div>
+                <h3 className="text-xs uppercase text-gray-400 dark:text-gray-500 font-semibold pl-3">
+                  <span
+                    className="hidden lg:block lg:sidebar-expanded:hidden 2xl:hidden text-center w-6"
+                    aria-hidden="true"
+                  >
+                    •••
+                  </span>
+                  <span className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                    SUPERADMIN
+                  </span>
+                </h3>
+                <ul className="mt-3">
+                  {/* Disposisi */}
+                  <li
+                    className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r ${
+                      pathname.includes("disposisi") &&
+                      "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
+                    }`}
+                  >
+                    <NavLink
+                      end
+                      to="/disposisi"
+                      className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
                         pathname.includes("disposisi")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
+                          ? ""
+                          : "hover:text-gray-900 dark:hover:text-white"
                       }`}
-                    />
-                    <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Disposisi
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
+                    >
+                      <div className="flex items-center">
+                        <CheckBadgeIcon
+                          className={`shrink-0 h-5 w-5 ${
+                            pathname.includes("disposisi")
+                              ? "text-violet-500"
+                              : "text-gray-400 dark:text-gray-500"
+                          }`}
+                        />
+                        <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                          Disposisi
+                        </span>
+                      </div>
+                    </NavLink>
+                  </li>
 
-              {/* Anggota */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r ${
-                  pathname.includes("anggota") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/anggota"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("anggota")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <UserGroupIcon
-                      className={`shrink-0 h-5 w-5 ${
-                        pathname.includes("anggota")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
-                      }`}
-                    />
-                    <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Anggota
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
+                  {/* Anggota */}
+                  <SidebarLinkGroup
+                    activecondition={
+                      pathname === "/users" || pathname.includes("users")
+                    }
+                  >
+                    {(handleClick, open) => {
+                      return (
+                        <React.Fragment>
+                          <a
+                            href="#0"
+                            className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
+                              pathname === "/users" || pathname.includes("users")
+                                ? ""
+                                : "hover:text-gray-900 dark:hover:text-white"
+                            }`}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleClick();
+                              setSidebarExpanded(true);
+                            }}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div className="flex items-center">
+                                <UserGroupIcon
+                                  className={`shrink-0 w-5 h-5 ${
+                                    pathname === "/users" ||
+                                    pathname.includes("users")
+                                      ? "text-violet-500"
+                                      : "text-gray-400 dark:text-gray-500"
+                                  }`}
+                                />
+                                <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                  Anggota
+                                </span>
+                              </div>
+                              {/* Icon */}
+                              <div className="flex shrink-0 ml-2">
+                                <svg
+                                  className={`w-3 h-3 shrink-0 ml-1 fill-current text-gray-400 dark:text-gray-500 ${
+                                    open && "rotate-180"
+                                  }`}
+                                  viewBox="0 0 12 12"
+                                >
+                                  <path d="M5.9 11.4L.5 6l1.4-1.4 4 4 4-4L11.3 6z" />
+                                </svg>
+                              </div>
+                            </div>
+                          </a>
+                          <div className="lg:hidden lg:sidebar-expanded:block 2xl:block">
+                            <ul className={`pl-8 mt-2 ${!open && "hidden"}`}>
+                              <li className="mb-2 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/users/list"
+                                  className={({ isActive }) =>
+                                    "block transition duration-150 truncate " +
+                                    (isActive
+                                      ? "text-violet-500"
+                                      : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
+                                  }
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Data Anggota
+                                  </span>
+                                </NavLink>
+                              </li>
+                              <li className="mb-2 last:mb-0">
+                                <NavLink
+                                  end
+                                  to="/users/add"
+                                  className={({ isActive }) =>
+                                    "block transition duration-150 truncate " +
+                                    (isActive
+                                      ? "text-violet-500"
+                                      : "text-gray-500/90 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200")
+                                  }
+                                >
+                                  <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                                    Tambah Anggota
+                                  </span>
+                                </NavLink>
+                              </li>
+                            </ul>
+                          </div>
+                        </React.Fragment>
+                      );
+                    }}
+                  </SidebarLinkGroup>
 
-              {/* Data Organisasi */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r ${
-                  pathname.includes("organization") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/organization"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("organization")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <BuildingOffice2Icon
-                      className={`shrink-0 h-5 w-5 ${
+                  {/* Data Organisasi */}
+                  <li
+                    className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r ${
+                      pathname.includes("organization") &&
+                      "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
+                    }`}
+                  >
+                    <NavLink
+                      end
+                      to="/organization"
+                      className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
                         pathname.includes("organization")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
+                          ? ""
+                          : "hover:text-gray-900 dark:hover:text-white"
                       }`}
-                    />
-                    <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Profil Organisasi
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
+                    >
+                      <div className="flex items-center">
+                        <BuildingOffice2Icon
+                          className={`shrink-0 h-5 w-5 ${
+                            pathname.includes("organization")
+                              ? "text-violet-500"
+                              : "text-gray-400 dark:text-gray-500"
+                          }`}
+                        />
+                        <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                          Profil Organisasi
+                        </span>
+                      </div>
+                    </NavLink>
+                  </li>
 
-              {/* Kategori Surat Keluar */}
-              <li
-                className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r ${
-                  pathname.includes("kategori") &&
-                  "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
-                }`}
-              >
-                <NavLink
-                  end
-                  to="/kategori"
-                  className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
-                    pathname.includes("kategori")
-                      ? ""
-                      : "hover:text-gray-900 dark:hover:text-white"
-                  }`}
-                >
-                  <div className="flex items-center">
-                    <TagIcon
-                      className={`shrink-0 h-5 w-5 ${
-                        pathname.includes("kategori")
-                          ? "text-violet-500"
-                          : "text-gray-400 dark:text-gray-500"
+                  {/* Kategori Surat Keluar */}
+                  <li
+                    className={`pl-4 pr-3 py-2 rounded-lg mb-0.5 last:mb-0 bg-linear-to-r ${
+                      pathname.includes("category") &&
+                      "from-violet-500/[0.12] dark:from-violet-500/[0.24] to-violet-500/[0.04]"
+                    }`}
+                  >
+                    <NavLink
+                      end
+                      to="/category"
+                      className={`block text-gray-800 dark:text-gray-100 truncate transition duration-150 ${
+                        pathname.includes("category")
+                          ? ""
+                          : "hover:text-gray-900 dark:hover:text-white"
                       }`}
-                    />
-                    <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                      Kategori Surat Keluar
-                    </span>
-                  </div>
-                </NavLink>
-              </li>
-            </ul>
-          </div>
+                    >
+                      <div className="flex items-center">
+                        <TagIcon
+                          className={`shrink-0 h-5 w-5 ${
+                            pathname.includes("category")
+                              ? "text-violet-500"
+                              : "text-gray-400 dark:text-gray-500"
+                          }`}
+                        />
+                        <span className="text-sm font-medium ml-4 lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
+                          Kategori Surat Keluar
+                        </span>
+                      </div>
+                    </NavLink>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Expand / collapse button */}

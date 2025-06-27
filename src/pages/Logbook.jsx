@@ -1,11 +1,43 @@
 import React, { useState } from "react";
+import { useParams, Navigate } from "react-router-dom";
 
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import Datepicker from "../components/Datepicker";
 
+import AllDocumentsCard from "../partials/logbook/AllDocumentsCard";
+import InboxMailListCard from "../partials/logbook/InboxMailListCard";
+import OutboxMailListCard from "../partials/logbook/OutobxMailListCard";
+
 function Logbook() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { sub } = useParams();
+
+  const renderCard = () => {
+    switch (sub) {
+      case "all":
+        return <AllDocumentsCard />;
+      case "inbox":
+        return <InboxMailListCard />;
+      case "outbox":
+        return <OutboxMailListCard />;
+      default:
+        return <Navigate to="/logbook/all" replace />;
+    }
+  };
+
+  const renderBreadcrumbText = () => {
+    switch (sub) {
+      case "all":
+        return "Semua Dokumen";
+      case "inbox":
+        return "Surat Masuk";
+      case "outbox":
+        return "Surat Keluar";
+      default:
+        return "";
+    }
+  };
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -20,7 +52,7 @@ function Logbook() {
             {/* Dashboard actions */}
             <div className="sm:flex sm:justify-between sm:items-center mb-8">
               {/* Left: Breadcrumbs as Title */}
-              <div className="mb-4 sm:mb-0">
+              <div className="ms-1 mb-4 sm:mb-0">
                 <nav
                   className="flex items-center space-x-2 text-sm text-gray-500 dark:text-gray-400"
                   aria-label="Breadcrumb"
@@ -44,8 +76,27 @@ function Logbook() {
                       d="M9 5l7 7-7 7"
                     />
                   </svg>
-                  <span className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100">
+                  <a
+                    href="/"
+                    className="hover:text-gray-700 dark:hover:text-gray-300"
+                  >
                     Buku Agenda
+                  </a>
+                  <svg
+                    className="h-4 w-4 text-gray-400 dark:text-gray-500"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M9 5l7 7-7 7"
+                    />
+                  </svg>
+                  <span className="text-xl md:text-2xl font-bold text-gray-800 dark:text-gray-100">
+                    {renderBreadcrumbText()}
                   </span>
                 </nav>
               </div>
@@ -57,7 +108,9 @@ function Logbook() {
               </div>
             </div>
             {/* Cards */}
-            <div className="grid grid-cols-12 gap-6"></div>
+            <div className="grid grid-cols-12 gap-6">
+              {renderCard()}
+            </div>
           </div>
         </main>
       </div>
