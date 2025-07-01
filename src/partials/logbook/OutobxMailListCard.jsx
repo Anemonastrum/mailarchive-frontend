@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllMailsApi } from "../../api/logbook";
+import { getLogbookOutbox } from "../../api/logbook";
 import toast from "react-hot-toast";
 import {
   ArrowLeftIcon,
@@ -12,6 +12,7 @@ import { useAuth } from "../../context/AuthContext";
 import DeleteMailConfirmCard from "./DeleteMailConfirmCard";
 import ViewMailCard from "./ViewMailCard";
 import EditMailCard from "./EditMailCard";
+import { BeatLoader } from "react-spinners";
 
 export default function OutboxMailListCard() {
   const { user } = useAuth();
@@ -26,11 +27,8 @@ export default function OutboxMailListCard() {
   const fetchOutboxMails = async (page = 1) => {
     try {
       setLoading(true);
-      const res = await getAllMailsApi({ page, limit: 10, search });
-      const outboxOnly = res.data.documents.filter(
-        (doc) => doc.type.toLowerCase() === "outbox"
-      );
-      setOutboxMails(outboxOnly);
+      const res = await getLogbookOutbox({ page, limit: 10, search });
+      setOutboxMails(res.data.outboxes);
       setPagination(res.data.pagination);
     } catch (err) {
       toast.error("Gagal memuat surat keluar");
@@ -98,7 +96,9 @@ export default function OutboxMailListCard() {
                 {loading ? (
                   <tr>
                     <td colSpan="7" className="text-center p-4 text-gray-500 dark:text-gray-400">
-                      Memuat data...
+                      <div className="flex justify-center items-center">
+                        <BeatLoader size={12} color="#a6e3a1" />
+                      </div>
                     </td>
                   </tr>
                 ) : outboxMails.length === 0 ? (
@@ -132,10 +132,7 @@ export default function OutboxMailListCard() {
                         <div className="flex justify-center items-center gap-2">
                           <button
                             onClick={() =>
-                              setViewTarget({
-                                id: doc._id,
-                                type: "outbox",
-                              })
+                              setViewTarget({ id: doc._id, type: "outbox" })
                             }
                             className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 hover:bg-violet-700 text-white"
                           >
@@ -145,12 +142,9 @@ export default function OutboxMailListCard() {
                             <>
                               <button
                                 onClick={() =>
-                                  setEditTarget({
-                                    id: doc._id,
-                                    type: "outbox",
-                                  })
+                                  setEditTarget({ id: doc._id, type: "outbox" })
                                 }
-                                className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white"
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-sky-500 hover:bg-yellow-600 text-white"
                               >
                                 <PencilIcon className="w-4 h-4" />
                               </button>
@@ -211,7 +205,7 @@ export default function OutboxMailListCard() {
         </div>
       )}
 
-      {/* View Mail Modal */}
+      {/* View Modal */}
       {viewTarget && (
         <ViewMailCard
           mailId={viewTarget.id}
@@ -220,7 +214,7 @@ export default function OutboxMailListCard() {
         />
       )}
 
-      {/* Delete Confirmation Modal */}
+      {/* Delete Modal */}
       {deleteTarget && (
         <DeleteMailConfirmCard
           mail={deleteTarget}

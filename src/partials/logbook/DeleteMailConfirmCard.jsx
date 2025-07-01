@@ -17,8 +17,8 @@ export default function DeleteMailConfirmCard({ mail, onClose, onDeleted }) {
         await deleteOutboxApi(mail._id);
       }
       toast.success('Surat berhasil dihapus');
-      onDeleted(); // Refresh parent list
-      onClose();   // Close modal
+      onDeleted();
+      onClose();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Gagal menghapus surat');
     } finally {

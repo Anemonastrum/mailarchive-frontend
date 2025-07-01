@@ -7,6 +7,7 @@ import {
   EyeIcon,
   PaperClipIcon,
 } from "@heroicons/react/24/solid";
+import { BeatLoader } from "react-spinners";
 
 export default function ViewMailCard({ mailId, type, onClose }) {
   const [mail, setMail] = useState(null);
@@ -16,12 +17,10 @@ export default function ViewMailCard({ mailId, type, onClose }) {
     const fetchMail = async () => {
       try {
         setLoading(true);
-        console.log("Fetching mail", mailId, type); // 👈 debug log
         const res =
           type === "inbox"
             ? await getInboxByIdApi(mailId)
             : await getOutboxByIdApi(mailId);
-        console.log("Mail fetched", res.data);
         setMail(type === "inbox" ? res.data.inbox : res.data.outbox);
       } catch (err) {
         console.error("Gagal memuat surat", err);
@@ -68,7 +67,9 @@ export default function ViewMailCard({ mailId, type, onClose }) {
         <div className="px-6 py-4 max-h-[70vh] overflow-y-auto space-y-4 text-sm text-gray-700 dark:text-gray-200">
           {loading ? (
             <p className="text-center text-gray-500 dark:text-gray-400">
-              Memuat data...
+              <div className="flex justify-center items-center">
+                <BeatLoader size={12} color="#a6e3a1" />
+              </div>
             </p>
           ) : mail ? (
             <div className="space-y-3">
@@ -76,7 +77,7 @@ export default function ViewMailCard({ mailId, type, onClose }) {
                 <span className="font-semibold">Nomor:</span> {mail.number}
               </div>
               <div>
-                <span className="font-semibold">Kategori:</span> {mail.category}
+                <span className="font-semibold">Perihal:</span> {mail.category}
               </div>
               <div>
                 <span className="font-semibold">Tanggal:</span>{" "}
@@ -96,6 +97,24 @@ export default function ViewMailCard({ mailId, type, onClose }) {
                     <span className="font-semibold">Ringkasan:</span>{" "}
                     {mail.summary}
                   </div>
+                  {mail.mailUrl && (
+                    <div>
+                      <span className="font-semibold block mb-1">
+                        Foto Surat:
+                      </span>
+                      <a
+                        href={mail.mailUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <img
+                          src={mail.mailUrl}
+                          alt="Foto Surat"
+                          className="w-full max-h-64 object-contain rounded border"
+                        />
+                      </a>
+                    </div>
+                  )}
                   <div>
                     <span className="font-semibold">Tindakan:</span>{" "}
                     {mail.action || "-"}
@@ -120,20 +139,11 @@ export default function ViewMailCard({ mailId, type, onClose }) {
                     {mail.createdBy || "-"}
                   </div>
 
-                  {/* PDF section */}
+                  {/* PDF buttons */}
                   {mail.pdfUrl && (
                     <div className="space-y-2">
                       <span className="font-semibold">Dokumen PDF:</span>
-                      <div className="flex gap-2 items-center">
-                        <a
-                          href={mail.pdfUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="flex items-center gap-1 px-3 py-1.5 rounded-md bg-sky-600 text-white text-sm hover:bg-sky-700 transition"
-                        >
-                          <EyeIcon className="w-4 h-4" />
-                          Lihat
-                        </a>
+                      <div className="flex gap-2 items-center pt-4 pb-3">
                         <a
                           href={mail.pdfUrl}
                           download
@@ -142,6 +152,14 @@ export default function ViewMailCard({ mailId, type, onClose }) {
                           <ArrowDownTrayIcon className="w-4 h-4" />
                           Unduh
                         </a>
+                      </div>
+                      {/* Embedded preview */}
+                      <div className="border rounded-md overflow-hidden mt-2">
+                        <iframe
+                          src={mail.pdfUrl}
+                          className="w-full h-[400px]"
+                          title="Preview PDF"
+                        ></iframe>
                       </div>
                     </div>
                   )}

@@ -4,8 +4,10 @@ export const getAllMailsApi = (params) => {
   return axios.get('/logbook/all', { params });
 };
 
-export const getLogbookInbox = () =>
-  axios.get('logbook/inbox');
+export const getLogbookInbox = (params) => {
+  return axios.get('/logbook/inbox', { params });
+};
 
-export const getLogbookOutbox = () =>
-  axios.get('logbook/outbox');
+export const getLogbookOutbox = (params) => {
+  return axios.get('/logbook/outbox', { params });
+};

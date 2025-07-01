@@ -7,7 +7,7 @@ export const updateUserSelfApi = (formData) =>
     headers: { 'Content-Type': 'multipart/form-data' },
   });
 
-export const changePasswordApi = (data) => axios.put('user/password', data);
+export const changePasswordApi = (data) => axios.put('user/me/password', data);
 
 export const registerUserApi = (data) => axios.post('/user/add', data);
 

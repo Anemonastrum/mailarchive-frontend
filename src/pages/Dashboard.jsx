@@ -9,6 +9,7 @@ import OutboxTotal from "../partials/dashboard/OutboxTotal";
 import QuickActions from "../partials/dashboard/QuickActions";
 import MailYearly from "../partials/dashboard/MailYearly";
 import MailCategory from "../partials/dashboard/MailCategory";
+import ConditionalCard from "../partials/dashboard/ConditionalCard";
 
 function Dashboard() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -71,6 +72,7 @@ function Dashboard() {
               <AllDocuments />
               <InboxTotal />
               <OutboxTotal />
+              <ConditionalCard />
               <MailYearly />
               <MailCategory />
               <QuickActions />

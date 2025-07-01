@@ -10,6 +10,7 @@ export default function RegisterUserCard() {
     address: '',
     number: '',
     position: '',
+    nbm: '',
     role: 'user',
     status: 'active',
   });
@@ -33,6 +34,7 @@ export default function RegisterUserCard() {
         address: '',
         number: '',
         position: '',
+        nbm: '',
         role: 'user',
         status: 'active',
       });
@@ -62,6 +64,7 @@ export default function RegisterUserCard() {
             { label: 'No. Telepon', name: 'number', type: 'text' },
             { label: 'Alamat', name: 'address', type: 'text' },
             { label: 'Jabatan', name: 'position', type: 'text' },
+            { label: 'NBM', name: 'nbm', type: 'text' },
           ].map((field) => (
             <div key={field.name}>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getAllMailsApi } from "../../api/logbook";
+import { getLogbookInbox } from "../../api/logbook";
 import toast from "react-hot-toast";
 import {
   ArrowLeftIcon,
@@ -12,6 +12,8 @@ import { useAuth } from "../../context/AuthContext";
 import DeleteMailConfirmCard from "./DeleteMailConfirmCard";
 import ViewMailCard from "./ViewMailCard";
 import EditMailCard from "./EditMailCard";
+
+import { BeatLoader } from "react-spinners";
 
 export default function InboxMailListCard() {
   const { user } = useAuth();
@@ -26,11 +28,8 @@ export default function InboxMailListCard() {
   const fetchInboxMails = async (page = 1) => {
     try {
       setLoading(true);
-      const res = await getAllMailsApi({ page, limit: 10, search });
-      const inboxOnly = res.data.documents.filter(
-        (doc) => doc.type.toLowerCase() === "inbox"
-      );
-      setInboxMails(inboxOnly);
+      const res = await getLogbookInbox({ page, limit: 10, search });
+      setInboxMails(res.data.inboxes);
       setPagination(res.data.pagination);
     } catch (err) {
       toast.error("Gagal memuat surat masuk");
@@ -97,13 +96,21 @@ export default function InboxMailListCard() {
               <tbody className="text-sm font-medium divide-y divide-gray-100 dark:divide-gray-700/60">
                 {loading ? (
                   <tr>
-                    <td colSpan="7" className="text-center p-4 text-gray-500 dark:text-gray-400">
-                      Memuat data...
+                    <td
+                      colSpan="7"
+                      className="p-4 text-gray-500 dark:text-gray-400"
+                    >
+                      <div className="flex justify-center items-center">
+                        <BeatLoader size={12} color="#a6e3a1" />
+                      </div>
                     </td>
                   </tr>
                 ) : inboxMails.length === 0 ? (
                   <tr>
-                    <td colSpan="7" className="text-center p-4 text-gray-500 dark:text-gray-400">
+                    <td
+                      colSpan="7"
+                      className="text-center p-4 text-gray-500 dark:text-gray-400"
+                    >
                       Tidak ada surat masuk ditemukan
                     </td>
                   </tr>
@@ -150,7 +157,7 @@ export default function InboxMailListCard() {
                                     type: "inbox",
                                   })
                                 }
-                                className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white"
+                                className="w-8 h-8 flex items-center justify-center rounded-full bg-sky-500 hover:bg-yellow-600 text-white"
                               >
                                 <PencilIcon className="w-4 h-4" />
                               </button>

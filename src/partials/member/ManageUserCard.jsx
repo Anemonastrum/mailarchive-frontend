@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { manageUserApi } from '../../api/user'; // Adjust path
+import { manageUserApi } from '../../api/user';
 import toast from 'react-hot-toast';
 import { XMarkIcon } from '@heroicons/react/24/solid';
 
 export default function ManageUserCard({ user, onClose }) {
   const [form, setForm] = useState({
     name: user.name || '',
-    address: user.address || '',
+    nbm: user.nbm || '',
     position: user.position || '',
     number: user.number || '',
     role: user.role || 'user',
@@ -28,6 +28,13 @@ export default function ManageUserCard({ user, onClose }) {
     }
   };
 
+  const fieldLabels = {
+    name: 'Nama',
+    nbm: 'NBM',
+    position: 'Jabatan',
+    number: 'No. Telepon',
+  };
+
   return (
     <div className="fixed inset-0 z-50 bg-black/40 flex items-center justify-center px-4">
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-xl w-full max-w-md relative">
@@ -41,9 +48,11 @@ export default function ManageUserCard({ user, onClose }) {
 
         {/* Form Body */}
         <div className="p-5 space-y-4">
-          {['name', 'address', 'position', 'number'].map((field) => (
+          {['name', 'nbm', 'position', 'number'].map((field) => (
             <div key={field}>
-              <label className="block text-sm mb-1 capitalize text-gray-700 dark:text-gray-300">{field}</label>
+              <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">
+                {fieldLabels[field]}
+              </label>
               <input
                 name={field}
                 value={form[field]}
@@ -52,6 +61,7 @@ export default function ManageUserCard({ user, onClose }) {
               />
             </div>
           ))}
+
           <div>
             <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">Role</label>
             <select
@@ -65,6 +75,7 @@ export default function ManageUserCard({ user, onClose }) {
               <option value="superadmin">Superadmin</option>
             </select>
           </div>
+
           <div>
             <label className="block text-sm mb-1 text-gray-700 dark:text-gray-300">Status</label>
             <select

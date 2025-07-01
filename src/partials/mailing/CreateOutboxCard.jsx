@@ -56,7 +56,7 @@ export default function CreateOutboxCard() {
   const handleSubmit = async () => {
     const { number, category, date, destination, summary, sign } = form;
 
-    if (!number || !category || !date || !destination || !summary || !editorContent || !sign) {
+    if (!number || !category || !date || !destination || !summary || !editorContent ) {
       toast.error('Semua kolom wajib diisi!');
       return;
     }
@@ -196,15 +196,18 @@ export default function CreateOutboxCard() {
         </div>
 
         <div className="md:col-span-2">
-          <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Penandatangan</label>
-          <input
-            type="text"
-            name="sign"
-            value={form.sign}
-            onChange={handleChange}
-            className="w-full bg-gray-100 dark:bg-gray-700 px-3 py-3 rounded-md text-sm text-gray-800 dark:text-gray-100"
-          />
-        </div>
+  <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Penandatangan</label>
+  <select
+    name="sign"
+    value={form.sign}
+    onChange={handleChange}
+    className="w-full bg-gray-100 dark:bg-gray-700 px-3 py-3 rounded-md text-sm text-gray-800 dark:text-gray-100"
+  >
+    <option value="">Pilih penandatangan</option>
+    <option value="Hj. Marfu’ah, S.Pd.SD">Ketua - Hj. Marfu’ah, S.Pd.SD</option>
+  </select>
+</div>
+
 
         <div className="md:col-span-2">
           <label className="block text-sm text-gray-700 dark:text-gray-300 mb-3">Lampiran (jika ada)</label>

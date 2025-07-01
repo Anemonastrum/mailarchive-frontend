@@ -7,6 +7,7 @@ import Datepicker from "../components/Datepicker";
 
 import CreateInboxCard from "../partials/mailing/CreateInboxCard";
 import CreateOutboxCard from "../partials/mailing/CreateOutboxCard";
+import DispositionListCard from "../partials/mailing/DispositionList";
 
 function Mailing() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -18,6 +19,8 @@ function Mailing() {
         return <CreateInboxCard />;
       case "outbox":
         return <CreateOutboxCard />;
+      case "wait":
+        return <DispositionListCard />;
       default:
         return <Navigate to="/mail/inbox" replace />;
     }
@@ -29,6 +32,8 @@ function Mailing() {
         return "Surat Masuk";
       case "outbox":
         return "Surat Keluar";
+      case "wait":
+        return "Surat Menunggu";
       default:
         return "";
     }

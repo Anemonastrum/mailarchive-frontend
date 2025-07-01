@@ -14,6 +14,8 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/solid";
 
+import { BeatLoader } from "react-spinners";
+
 export default function MailCategory() {
   const [categories, setCategories] = useState([]);
   const [newCategory, setNewCategory] = useState("");
@@ -96,7 +98,7 @@ export default function MailCategory() {
       {/* List */}
       {loading ? (
         <div className="text-center text-gray-500 dark:text-gray-400 py-8">
-          Memuat data...
+          <BeatLoader size={12} color="#a6e3a1" />
         </div>
       ) : (
         <div className="rounded-lg divide-y dark:divide-gray-700">
@@ -145,7 +147,7 @@ export default function MailCategory() {
                       {cat.name}
                     </span>
                     <button
-                      className="w-8 h-8 flex items-center justify-center rounded-full bg-yellow-500 hover:bg-yellow-600 text-white"
+                      className="w-8 h-8 flex items-center justify-center rounded-full bg-sky-500 hover:bg-sky-600 text-white"
                       title="Edit"
                       onClick={() => {
                         setEditId(cat._id);

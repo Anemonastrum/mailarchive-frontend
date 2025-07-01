@@ -5,6 +5,7 @@ import {
   updateOrganizationApi,
 } from '../../api/organization';
 import toast from 'react-hot-toast';
+import { BeatLoader } from 'react-spinners';
 
 export default function OrganizationCard() {
   const [org, setOrg] = useState(null);
@@ -69,7 +70,7 @@ export default function OrganizationCard() {
   if (loading) {
     return (
       <div className="col-span-full bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center text-gray-500">
-        Loading...
+                        <BeatLoader size={12} color="#a6e3a1" />
       </div>
     );
   }

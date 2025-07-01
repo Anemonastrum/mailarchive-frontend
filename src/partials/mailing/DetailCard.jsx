@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
-import { getInboxByIdApi, updateInboxActionApi } from "../../api/inbox";
+import { getInboxByIdApi } from "../../api/inbox";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
 export default function DetailCard({ inboxId, onClose }) {
   const [inbox, setInbox] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [action, setAction] = useState("");
-  const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchInbox = async () => {
@@ -23,21 +21,6 @@ export default function DetailCard({ inboxId, onClose }) {
     };
     fetchInbox();
   }, [inboxId, onClose]);
-
-  const handleActionSubmit = async () => {
-    if (!action) return toast.error("Pilih tindakan terlebih dahulu");
-
-    try {
-      setSubmitting(true);
-      await updateInboxActionApi(inboxId, { action });
-      toast.success("Tindakan berhasil dikirim");
-      onClose();
-    } catch (err) {
-      toast.error(err.response?.data?.message || "Gagal mengirim tindakan");
-    } finally {
-      setSubmitting(false);
-    }
-  };
 
   if (!inboxId || loading || !inbox) return null;
 
@@ -69,41 +52,51 @@ export default function DetailCard({ inboxId, onClose }) {
             </div>
             <div>
               <label className="block font-semibold mb-1 text-gray-800 dark:text-gray-200">
+                Perihal
+              </label>
+              <div>{inbox.category}</div>
+            </div>
+            <div>
+              <label className="block font-semibold mb-1 text-gray-800 dark:text-gray-200">
+                Tanggal Surat
+              </label>
+              <div>{new Date(inbox.date).toLocaleDateString("id-ID")}</div>
+            </div>
+            <div>
+              <label className="block font-semibold mb-1 text-gray-800 dark:text-gray-200">
+                Tanggal Diterima
+              </label>
+              <div>{new Date(inbox.recievedDate).toLocaleDateString("id-ID")}</div>
+            </div>
+            <div className="md:col-span-2">
+              <label className="block font-semibold mb-1 text-gray-800 dark:text-gray-200">
                 Asal Surat
               </label>
               <div>{inbox.origin}</div>
             </div>
-            <div>
+            <div className="md:col-span-2">
               <label className="block font-semibold mb-1 text-gray-800 dark:text-gray-200">
-                Tanggal Terima
-              </label>
-              <div>{new Date(inbox.recievedDate).toLocaleDateString("id-ID")}</div>
-            </div>
-            <div>
-              <label className="block font-semibold mb-1 text-gray-800 dark:text-gray-200">
-                Ringkasan
+                Ringkasan Isi
               </label>
               <div>{inbox.summary}</div>
             </div>
           </div>
 
-          {/* mailUrl Image Preview */}
           {inbox.mailUrl && (
             <div>
               <label className="block font-semibold mb-2 text-gray-800 dark:text-gray-200">
-                Foto Surat
+                Preview Foto Surat
               </label>
               <div className="flex justify-center">
                 <a
                   href={inbox.mailUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block"
                 >
                   <img
                     src={inbox.mailUrl}
                     alt="Foto Surat"
-                    className="max-h-64 object-contain rounded-md border"
+                    className="max-h-64 rounded-md border"
                   />
                 </a>
               </div>
@@ -126,7 +119,7 @@ export default function DetailCard({ inboxId, onClose }) {
                   >
                     <img
                       src={url}
-                      alt={`Lampiran ${index + 1}`}
+                      alt={`Attachment ${index + 1}`}
                       className="w-full h-32 object-cover rounded-md border"
                     />
                   </a>
@@ -134,61 +127,16 @@ export default function DetailCard({ inboxId, onClose }) {
               </div>
             </div>
           )}
-
-          {inbox.content && (
-            <div>
-              <label className="block font-semibold mb-2 text-gray-800 dark:text-gray-200">
-                Isi Surat
-              </label>
-              <div
-                className="prose dark:prose-invert max-w-full"
-                dangerouslySetInnerHTML={{ __html: inbox.content }}
-              />
-            </div>
-          )}
-
-          {inbox.status === "wait" && (
-            <div>
-              <label className="block font-semibold mb-2 text-gray-800 dark:text-gray-200">
-                Tindakan
-              </label>
-              <select
-                value={action}
-                onChange={(e) => setAction(e.target.value)}
-                className="w-full px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-sm text-gray-800 dark:text-white"
-              >
-                <option value="">Pilih tindakan</option>
-                <option value="Tindak lanjuti">Tindak lanjuti</option>
-                <option value="Setuju">Setuju</option>
-                <option value="Tolak">Tolak</option>
-                <option value="Teliti & pendapat">Teliti & pendapat</option>
-                <option value="Untuk diketahui">Untuk diketahui</option>
-                <option value="Selesaikan">Selesaikan</option>
-                <option value="Sesuai catatan">Sesuai catatan</option>
-                <option value="Untuk Diperhatikan">Untuk Diperhatikan</option>
-                <option value="Edarkan">Edarkan</option>
-              </select>
-            </div>
-          )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-5 border-t border-gray-100 dark:border-gray-700/60 flex justify-end gap-2">
+        <div className="px-6 py-5 border-t border-gray-100 dark:border-gray-700/60 flex justify-end">
           <button
             onClick={onClose}
-            className="bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded-md text-sm hover:bg-gray-300 dark:hover:bg-gray-500 transition"
+            className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-md hover:bg-gray-300 dark:hover:bg-gray-500 transition"
           >
             Tutup
           </button>
-          {inbox.status === "wait" && (
-            <button
-              onClick={handleActionSubmit}
-              disabled={submitting}
-              className="bg-violet-600 hover:bg-violet-700 text-white px-4 py-2 rounded-md text-sm transition disabled:opacity-50"
-            >
-              {submitting ? "Mengirim..." : "Kirim Tindakan"}
-            </button>
-          )}
         </div>
       </div>
     </div>

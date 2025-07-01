@@ -51,6 +51,7 @@ export default function UserDetailCard({ userId, onClose }) {
               )}
               <div className="w-full grid grid-cols-1 gap-3">
                 <div><span className="font-semibold">Nama:</span> {user.name}</div>
+                <div><span className="font-semibold">NBM:</span> {user.nbm}</div>
                 <div><span className="font-semibold">Alamat:</span> {user.address || '-'}</div>
                 <div><span className="font-semibold">Posisi:</span> {user.position || '-'}</div>
                 <div><span className="font-semibold">No. Telepon:</span> {user.number}</div>

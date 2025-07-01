@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { getUserApi, updateUserSelfApi } from '../../api/user';
+import { BeatLoader } from 'react-spinners';
 
 export default function ProfileCard() {
   const [user, setUser] = useState(null);
@@ -9,6 +10,7 @@ export default function ProfileCard() {
     address: '',
     position: '',
     number: '',
+    nbm: '',
     picture: null,
   });
   const [editing, setEditing] = useState(false);
@@ -25,6 +27,7 @@ export default function ProfileCard() {
           address: res.data.user.address || '',
           position: res.data.user.position || '',
           number: res.data.user.number || '',
+          nbm: res.data.user.nbm || '',
           picture: null,
         });
       } catch (err) {
@@ -54,6 +57,7 @@ export default function ProfileCard() {
       data.append('address', form.address);
       data.append('position', form.position);
       data.append('number', form.number);
+      data.append('nbm', form.nbm);
       if (form.picture) data.append('picture', form.picture);
 
       const res = await updateUserSelfApi(data);
@@ -69,7 +73,7 @@ export default function ProfileCard() {
   if (loading) {
     return (
       <div className="col-span-full bg-white dark:bg-gray-800 rounded-xl shadow p-6 text-center text-gray-500">
-        Loading...
+          <BeatLoader size={12} color="#a6e3a1" />
       </div>
     );
   }
@@ -119,17 +123,16 @@ export default function ProfileCard() {
               type="text"
               name="position"
               value={form.position}
-              onChange={handleInput}
-              disabled={!editing}
-              className="w-full bg-gray-100 dark:bg-gray-700 px-3 py-3 rounded-md text-sm text-gray-800 dark:text-gray-100"
+              disabled // <-- Always disabled
+              className="w-full bg-gray-100 dark:bg-gray-700 px-3 py-3 rounded-md text-sm text-gray-800 dark:text-gray-100 cursor-not-allowed"
             />
           </div>
-          <div className="md:col-span-2">
-            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Alamat</label>
+          <div>
+            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">NBM</label>
             <input
               type="text"
-              name="address"
-              value={form.address}
+              name="nbm"
+              value={form.nbm}
               onChange={handleInput}
               disabled={!editing}
               className="w-full bg-gray-100 dark:bg-gray-700 px-3 py-3 rounded-md text-sm text-gray-800 dark:text-gray-100"
@@ -141,6 +144,17 @@ export default function ProfileCard() {
               type="text"
               name="number"
               value={form.number}
+              onChange={handleInput}
+              disabled={!editing}
+              className="w-full bg-gray-100 dark:bg-gray-700 px-3 py-3 rounded-md text-sm text-gray-800 dark:text-gray-100"
+            />
+          </div>
+          <div className="md:col-span-2">
+            <label className="block text-sm text-gray-700 dark:text-gray-300 mb-1">Alamat</label>
+            <input
+              type="text"
+              name="address"
+              value={form.address}
               onChange={handleInput}
               disabled={!editing}
               className="w-full bg-gray-100 dark:bg-gray-700 px-3 py-3 rounded-md text-sm text-gray-800 dark:text-gray-100"

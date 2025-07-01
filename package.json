@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -25,6 +25,7 @@
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
     "react-router-dom": "^7.0.2",
+    "react-spinners": "^0.17.0",
     "react-transition-group": "^4.4.5",
     "tailwind-merge": "^2.5.5"
   },

@@ -8,6 +8,7 @@ export default defineConfig({
   },
   plugins: [react()],
   server: {
+    allowedHosts: ['vpn.warungmicky.shop'],
     port: 5173, 
   },
   build: {
