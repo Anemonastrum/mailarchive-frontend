@@ -25,34 +25,32 @@ Tampilan login terdiri dari dua bagian:
 ```bash
 git clone https://github.com/Anemonastrum/mailarchive-frontend.git
 cd mailarchive-frontend
-2. Install Dependencies
-bash
-Salin
-Edit
+```
+
+### 2. Install Dependencies
+```bash
 npm install
+```
 3. Jalankan Aplikasi
-bash
-Salin
-Edit
+```bash
 npm run dev
 # atau
 npm start
+```
 4. Akses di Browser
-bash
-Salin
-Edit
+```bash
 http://localhost:5173
+```
+
 🔐 Autentikasi
-Sistem login akan memeriksa kredensial ke backend.
+- Sistem login akan memeriksa kredensial ke backend.
 
-Menggunakan Context API untuk manajemen sesi.
+- Menggunakan Context API untuk manajemen sesi.
 
-Jika login berhasil, pengguna diarahkan ke halaman dashboard.
+- Jika login berhasil, pengguna diarahkan ke halaman dashboard.
 
 🧱 Struktur Direktori Utama
-csharp
-Salin
-Edit
+```
 mailarchive-frontend/
 ├── public/                 # Static assets
 ├── src/
@@ -62,6 +60,8 @@ mailarchive-frontend/
 │   ├── App.jsx             # Root component
 │   └── main.jsx            # Entry point
 └── tailwind.config.js      # Konfigurasi Tailwind
+```
+
 ✨ Fitur yang Sudah Diimplementasikan
 ✅ Tampilan login responsif
 
