@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getInboxDisposisiApi } from "../../api/inbox";
-import { getOutboxVerificationApi } from "../../api/outbox";
+import { getAllMailWaitApi } from "../../api/logbook";
 import toast from "react-hot-toast";
 import {
   ArrowLeftIcon,
@@ -20,32 +19,11 @@ export default function DispositionListCard() {
   const fetchDispositions = async (page = 1) => {
     try {
       setLoading(true);
-      const [inboxRes, outboxRes] = await Promise.all([
-        getInboxDisposisiApi({ page, limit: 10 }),
-        getOutboxVerificationApi({ page, limit: 10 }),
-      ]);
-
-      const inboxItems = inboxRes.data.data.map((item) => ({
-        ...item,
-        type: "inbox",
-      }));
-      const outboxItems = outboxRes.data.data.map((item) => ({
-        ...item,
-        type: "outbox",
-      }));
-
-      const merged = [...inboxItems, ...outboxItems];
-
-      setDispositions(merged);
-      setPagination({
-        page,
-        pages: Math.max(
-          inboxRes.data.totalPages || 1,
-          outboxRes.data.totalPages || 1
-        ),
-      });
+      const res = await getAllMailWaitApi({ page, limit: 10 });
+      setDispositions(res.data.documents);
+      setPagination(res.data.pagination);
     } catch (err) {
-      toast.error("Gagal memuat data disposisi");
+      toast.error("Gagal memuat data surat menunggu");
     } finally {
       setLoading(false);
     }
@@ -123,9 +101,7 @@ export default function DispositionListCard() {
                       </span>
                     </td>
                     <td className="px-3 py-3">{item.number}</td>
-                    <td className="px-3 py-3">
-                      {item.type === "inbox" ? item.origin : item.destination}
-                    </td>
+                    <td className="px-3 py-3">{item.from}</td>
                     <td className="px-3 py-3 truncate max-w-[200px]">
                       {item.summary}
                     </td>

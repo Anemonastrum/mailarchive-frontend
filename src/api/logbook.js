@@ -11,3 +11,7 @@ export const getLogbookInbox = (params) => {
 export const getLogbookOutbox = (params) => {
   return axios.get('/logbook/outbox', { params });
 };
+
+export const getAllMailWaitApi = (params) => {
+  return axios.get('/logbook/wait', { params });
+};

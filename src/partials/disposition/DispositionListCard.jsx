@@ -50,7 +50,7 @@ export default function DispositionListCard() {
                 <th className="text-left px-3 py-2">Nomor Surat</th>
                 <th className="text-left px-3 py-2">Asal Surat</th>
                 <th className="text-left px-3 py-2">Ringkasan</th>
-                <th className="text-left px-3 py-2">Tanggal Terima</th>
+                <th className="text-left px-3 py-2">Tanggal</th>
                 <th className="text-left px-3 py-2">Penginput</th>
                 <th className="text-center px-3 py-2">Lampiran</th>
                 <th className="text-center px-3 py-2">Aksi</th>

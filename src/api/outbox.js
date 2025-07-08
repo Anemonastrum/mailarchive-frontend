@@ -23,6 +23,9 @@ export const deleteOutboxApi = (id) =>
 export const getOutboxVerificationApi = () =>
   axios.get('outbox/verifikasi');
 
+export const getOutboxDisposisiApi = (params) =>
+  axios.get('outbox/verifikasi', { params });
+
 export const updateOutboxStatus = (id) =>
   axios.put(`outbox/verifikasi/${id}`);
 

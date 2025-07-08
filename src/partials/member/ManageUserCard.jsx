@@ -85,7 +85,7 @@ export default function ManageUserCard({ user, onClose }) {
               className="w-full px-3 py-2 rounded-md bg-gray-100 dark:bg-gray-700 text-sm text-gray-800 dark:text-white focus:outline-none"
             >
               <option value="active">Aktif</option>
-              <option value="inactive">Nonaktif</option>
+              <option value="not">Nonaktif</option>
             </select>
           </div>
         </div>

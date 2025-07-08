@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getOutboxVerificationApi } from "../../api/outbox";
+import { getOutboxDisposisiApi } from "../../api/outbox";
 import toast from "react-hot-toast";
 import {
   ArrowLeftIcon,
@@ -18,11 +18,12 @@ export default function VerificationListCard() {
   const fetchOutboxData = async (page = 1) => {
     try {
       setLoading(true);
-      const res = await getOutboxVerificationApi({ page, limit: 10 });
+      const res = await getOutboxDisposisiApi({ page, limit: 10 });
+
       setOutboxList(res.data.data);
       setPagination({
-        page: res.data.currentPage,
-        pages: res.data.totalPages,
+        page: res.data.pagination.page,
+        pages: res.data.pagination.pages,
       });
     } catch (err) {
       toast.error("Gagal memuat data verifikasi surat keluar");
@@ -63,8 +64,8 @@ export default function VerificationListCard() {
                 <tr>
                   <td colSpan="8" className="text-center p-4 text-gray-500 dark:text-gray-400">
                     <div className="flex justify-center items-center">
-                        <BeatLoader size={12} color="#a6e3a1" />
-                      </div>
+                      <BeatLoader size={12} color="#a6e3a1" />
+                    </div>
                   </td>
                 </tr>
               ) : outboxList.length === 0 ? (
