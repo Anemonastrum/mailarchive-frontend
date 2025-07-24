@@ -23,6 +23,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
   const trigger = useRef(null);
   const sidebar = useRef(null);
 
+  const logoUrl = "https://minio.warungmicky.shop/aisyiyah/assets/Aisyiyah.png";
+
   const storedSidebarExpanded = localStorage.getItem("sidebar-expanded");
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === "true"
@@ -111,7 +113,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen, variant = "default" }) {
             className="flex items-center gap-2 text-xl font-bold text-gray-800 dark:text-gray-100"
           >
             <div className="bg-violet-100 dark:bg-violet-500/20 text-violet-600 dark:text-violet-400 p-2 rounded-full">
-              <EnvelopeIcon className="w-6 h-6" />
+              <img src={logoUrl} className="w-6 h-6" />
             </div>
             <span className="ms-2 font-bold lg:sidebar-expanded:inline 2xl:inline transition-opacity duration-200">
               E-ARSIP
