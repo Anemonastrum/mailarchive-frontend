@@ -125,7 +125,7 @@ export default function Login() {
               {submitting ? (
                 <BeatLoader size={12} color="#ffffff" />
               ) : (
-                "Submit"
+                "Masuk"
               )}
 
             </button>
