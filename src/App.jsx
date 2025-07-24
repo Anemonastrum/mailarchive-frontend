@@ -16,6 +16,7 @@ import Mailing from './pages/Mailing';
 import Profile from './pages/Profile';
 import Member from './pages/Member';
 import Disposition from './pages/Disposition';
+import Unauthorized from './pages/Unauthorized';
 
 import { BeatLoader } from 'react-spinners';
 
@@ -42,14 +43,15 @@ function AppContent() {
       <Toaster position="top-right" />
       <Routes>
         <Route path="/login" element={<Login />} />
+        <Route path="/unauthorized" element={<Unauthorized />} />
         <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/logbook/:sub" element={<ProtectedRoute><Logbook /></ProtectedRoute>} />
-        <Route path="/mail/:sub" element={<ProtectedRoute><Mailing /></ProtectedRoute>} />
+        <Route path="/mail/:sub" element={<ProtectedRoute allowedRoles={['superadmin', 'admin']}><Mailing /></ProtectedRoute>} />
         <Route path="/profile/:sub" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
-        <Route path="/users/:sub" element={<ProtectedRoute><Member /></ProtectedRoute>} />
-        <Route path="/organization" element={<ProtectedRoute><Organization /></ProtectedRoute>} />
-        <Route path="/category" element={<ProtectedRoute><Category /></ProtectedRoute>} />
-        <Route path="/aksi/:sub" element={<ProtectedRoute><Disposition /></ProtectedRoute>} />
+        <Route path="/users/:sub" element={<ProtectedRoute allowedRoles={['superadmin']}><Member /></ProtectedRoute>} />
+        <Route path="/organization" element={<ProtectedRoute allowedRoles={['superadmin']}><Organization /></ProtectedRoute>} />
+        <Route path="/category" element={<ProtectedRoute allowedRoles={['superadmin']}><Category /></ProtectedRoute>} />
+        <Route path="/aksi/:sub" element={<ProtectedRoute allowedRoles={['superadmin']}><Disposition /></ProtectedRoute>} />
         <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="/profile" element={<Navigate to="/profile/data" replace />} />
       </Routes>

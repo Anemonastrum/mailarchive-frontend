@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
-  EnvelopeIcon,
   LockClosedIcon,
   UserIcon,
 } from "@heroicons/react/24/solid";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
+import { BeatLoader } from "react-spinners";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -122,7 +122,12 @@ export default function Login() {
               disabled={submitting}
               className="w-full bg-violet-600 hover:bg-violet-700 text-white font-semibold py-2.5 rounded-md text-sm transition disabled:opacity-50"
             >
-              {submitting ? "Masuk..." : "Masuk"}
+              {submitting ? (
+                <BeatLoader size={12} color="#ffffff" />
+              ) : (
+                "Submit"
+              )}
+
             </button>
 
             {/* Footer Text */}
